@@ -112,7 +112,7 @@ public class DeviceTypeResolver {
     WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
     if (windowManager == null) {
-      return DeviceType.UNKNOWN;
+      return 0;
     }
 
     double widthInches;
