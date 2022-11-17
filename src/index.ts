@@ -376,7 +376,7 @@ export const diagonalSizeInches = () =>
   getSupportedPlatformInfoSync({
     defaultValue: 0,
     supportedPlatforms: ['android', 'ios', 'windows'],
-    memoKey: 'tablet',
+    memoKey: undefined,
     getter: () => RNDeviceInfo.diagonalSizeInches,
   });
 
