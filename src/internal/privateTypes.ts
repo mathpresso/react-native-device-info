@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import type { DeviceType, LocationProviderInfo, PowerState, AsyncHookResult } from './types';
+import type { AsyncHookResult, DeviceType, LocationProviderInfo, PowerState } from './types';
 
 export type NotchDevice = {
   brand: string;
@@ -17,6 +17,7 @@ interface NativeConstants {
   deviceId: string;
   deviceType: DeviceType;
   isTablet: boolean;
+  diagonalSizeInches: number;
   model: string;
   systemName: string;
   systemVersion: string;
@@ -179,6 +180,7 @@ export interface DeviceInfoModule extends ExposedNativeMethods {
   isLandscape: () => Promise<boolean>;
   isLandscapeSync: () => boolean;
   isTablet: () => boolean;
+  diagonalSizeInches: () => number;
   supported32BitAbis: () => Promise<string[]>;
   supported32BitAbisSync: () => string[];
   supported64BitAbis: () => Promise<string[]>;

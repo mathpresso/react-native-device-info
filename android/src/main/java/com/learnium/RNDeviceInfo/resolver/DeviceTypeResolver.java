@@ -27,6 +27,10 @@ public class DeviceTypeResolver {
     return getDeviceType() == DeviceType.TABLET;
   }
 
+  public double diagonalSizeInches() {
+    return getDiagonalSizeInches();
+  }
+
   public DeviceType getDeviceType() {
     // Detect TVs via ui mode (Android TVs) or system features (Fire TV).
     if (context.getPackageManager().hasSystemFeature("amazon.hardware.fire_tv")) {
@@ -91,15 +95,51 @@ public class DeviceTypeResolver {
 
     double diagonalSizeInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
 
-    if (diagonalSizeInches >= 3.0 && diagonalSizeInches <= 6.9) {
+    if (diagonalSizeInches >= 3.0 && diagonalSizeInches <= 5.9) {
       // Devices in a sane range for phones are considered to be Handsets.
       return DeviceType.HANDSET;
-    } else if (diagonalSizeInches > 6.9 && diagonalSizeInches <= 18.0) {
+    } else if (diagonalSizeInches > 5.9 && diagonalSizeInches <= 18.0) {
       // Devices larger than handset and in a sane range for tablets are tablets.
       return DeviceType.TABLET;
     } else {
       // Otherwise, we don't know what device type we're on/
       return DeviceType.UNKNOWN;
     }
+  }
+}
+
+  private double getDiagonalSizeInches() {
+    // Find the current window manager, if none is found we can't measure the device physical size.
+    WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+    if (windowManager == null) {
+      return DeviceType.UNKNOWN;
+    }
+
+    double widthInches;
+    double heightInches;
+    DisplayMetrics metrics = new DisplayMetrics();
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+      // Get display metrics to see if we can differentiate handsets and tablets.
+      // NOTE: for API level 16 the metrics will exclude window decor.
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        windowManager.getDefaultDisplay().getRealMetrics(metrics);
+      } else {
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+      }
+      // Calculate physical size.
+      widthInches = metrics.widthPixels / (double) metrics.xdpi;
+      heightInches = metrics.heightPixels / (double) metrics.ydpi;
+    } else {
+      final WindowMetrics windowMetrics = windowManager.getCurrentWindowMetrics();
+      metrics = context.getApplicationContext().getResources().getDisplayMetrics();
+
+      widthInches = windowMetrics.getBounds().width() / (double) metrics.xdpi;
+      heightInches = windowMetrics.getBounds().height() / (double) metrics.ydpi;
+    }
+
+    double diagonalSizeInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
+
+    return diagonalSizeInches;
   }
 }

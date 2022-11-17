@@ -7,33 +7,19 @@
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
 
-import React, {Component, useCallback, memo} from 'react';
+import React, { Component, memo, useCallback } from 'react';
 import {
-  ScrollView,
+  NativeModules, SafeAreaView, ScrollView,
   StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  TouchableOpacity,
-  NativeModules,
+  Text, TouchableOpacity, View
 } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
-import {
+import DeviceInfo, {
   getManufacturer,
-  getManufacturerSync,
-  syncUniqueId,
-  getUniqueId,
-  getUniqueIdSync,
-  useBatteryLevel,
-  useBatteryLevelIsLow,
-  usePowerState,
-  useFirstInstallTime,
-  useDeviceName,
-  useManufacturer,
-  useHasSystemFeature,
+  getManufacturerSync, getUniqueId,
+  getUniqueIdSync, syncUniqueId, useBatteryLevel,
+  useBatteryLevelIsLow, useBrightness, useDeviceName, useFirstInstallTime, useHasSystemFeature,
   useIsEmulator,
-  useIsHeadphonesConnected,
-  useBrightness,
+  useIsHeadphonesConnected, useManufacturer, usePowerState
 } from 'react-native-device-info';
 
 const FunctionalComponent = () => {
@@ -117,6 +103,7 @@ export default class App extends Component {
     deviceJSON.readableVersion = DeviceInfo.getReadableVersion();
     deviceJSON.buildNumber = DeviceInfo.getBuildNumber();
     deviceJSON.isTablet = DeviceInfo.isTablet();
+    deviceJSON.diagonalSizeInches = DeviceInfo.diagonalSizeInches();
     deviceJSON.appName = DeviceInfo.getApplicationName();
     deviceJSON.brand = DeviceInfo.getBrand();
     deviceJSON.model = DeviceInfo.getModel();

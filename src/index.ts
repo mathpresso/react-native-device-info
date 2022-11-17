@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Dimensions, NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import { useOnEvent, useOnMount } from './internal/asyncHookWrappers';
-import devicesWithDynamicIsland from "./internal/devicesWithDynamicIsland";
+import devicesWithDynamicIsland from './internal/devicesWithDynamicIsland';
 import devicesWithNotch from './internal/devicesWithNotch';
 import RNDeviceInfo from './internal/nativeInterface';
+import { DeviceInfoModule } from './internal/privateTypes';
 import {
   getSupportedPlatformInfoAsync,
   getSupportedPlatformInfoFunctions,
   getSupportedPlatformInfoSync,
 } from './internal/supported-platform-info';
-import { DeviceInfoModule } from './internal/privateTypes';
 import type {
   AsyncHookResult,
   DeviceType,
@@ -170,16 +170,14 @@ export const getBundleId = () =>
     getter: () => RNDeviceInfo.bundleId,
   });
 
-export const [
-  getInstallerPackageName,
-  getInstallerPackageNameSync,
-] = getSupportedPlatformInfoFunctions({
-  memoKey: 'installerPackageName',
-  supportedPlatforms: ['android', 'windows', 'ios'],
-  getter: () => RNDeviceInfo.getInstallerPackageName(),
-  syncGetter: () => RNDeviceInfo.getInstallerPackageNameSync(),
-  defaultValue: 'unknown',
-});
+export const [getInstallerPackageName, getInstallerPackageNameSync] =
+  getSupportedPlatformInfoFunctions({
+    memoKey: 'installerPackageName',
+    supportedPlatforms: ['android', 'windows', 'ios'],
+    getter: () => RNDeviceInfo.getInstallerPackageName(),
+    syncGetter: () => RNDeviceInfo.getInstallerPackageNameSync(),
+    defaultValue: 'unknown',
+  });
 
 export const getApplicationName = () =>
   getSupportedPlatformInfoSync({
@@ -372,6 +370,14 @@ export const isTablet = () =>
     supportedPlatforms: ['android', 'ios', 'windows'],
     memoKey: 'tablet',
     getter: () => RNDeviceInfo.isTablet,
+  });
+
+export const diagonalSizeInches = () =>
+  getSupportedPlatformInfoSync({
+    defaultValue: false,
+    supportedPlatforms: ['android', 'ios', 'windows'],
+    memoKey: 'tablet',
+    getter: () => RNDeviceInfo.diagonalSizeInches,
   });
 
 export const [isPinOrFingerprintSet, isPinOrFingerprintSetSync] = getSupportedPlatformInfoFunctions(
@@ -641,15 +647,13 @@ export function isLowBatteryLevel(level: number): boolean {
   return level < 0.2;
 }
 
-export const [
-  getSystemAvailableFeatures,
-  getSystemAvailableFeaturesSync,
-] = getSupportedPlatformInfoFunctions({
-  supportedPlatforms: ['android'],
-  getter: () => RNDeviceInfo.getSystemAvailableFeatures(),
-  syncGetter: () => RNDeviceInfo.getSystemAvailableFeaturesSync(),
-  defaultValue: [] as string[],
-});
+export const [getSystemAvailableFeatures, getSystemAvailableFeaturesSync] =
+  getSupportedPlatformInfoFunctions({
+    supportedPlatforms: ['android'],
+    getter: () => RNDeviceInfo.getSystemAvailableFeatures(),
+    syncGetter: () => RNDeviceInfo.getSystemAvailableFeaturesSync(),
+    defaultValue: [] as string[],
+  });
 
 export const [isLocationEnabled, isLocationEnabledSync] = getSupportedPlatformInfoFunctions({
   supportedPlatforms: ['android', 'ios', 'web'],
@@ -688,15 +692,13 @@ export const isTabletMode = () =>
     defaultValue: false,
   });
 
-export const [
-  getAvailableLocationProviders,
-  getAvailableLocationProvidersSync,
-] = getSupportedPlatformInfoFunctions({
-  supportedPlatforms: ['android', 'ios'],
-  getter: () => RNDeviceInfo.getAvailableLocationProviders(),
-  syncGetter: () => RNDeviceInfo.getAvailableLocationProvidersSync(),
-  defaultValue: {},
-});
+export const [getAvailableLocationProviders, getAvailableLocationProvidersSync] =
+  getSupportedPlatformInfoFunctions({
+    supportedPlatforms: ['android', 'ios'],
+    getter: () => RNDeviceInfo.getAvailableLocationProviders(),
+    syncGetter: () => RNDeviceInfo.getAvailableLocationProvidersSync(),
+    defaultValue: {},
+  });
 
 export const [getBrightness, getBrightnessSync] = getSupportedPlatformInfoFunctions({
   supportedPlatforms: ['ios'],
@@ -972,6 +974,7 @@ const DeviceInfo: DeviceInfoModule = {
   isKeyboardConnectedSync,
   isTabletMode,
   isTablet,
+  diagonalSizeInches,
   supported32BitAbis,
   supported32BitAbisSync,
   supported64BitAbis,

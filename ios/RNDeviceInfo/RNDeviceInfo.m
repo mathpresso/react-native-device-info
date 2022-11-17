@@ -63,6 +63,7 @@ RCT_EXPORT_MODULE();
          @"appVersion": [self getAppVersion],
          @"buildNumber": [self getBuildNumber],
          @"isTablet": @([self isTablet]),
+         @"diagonalSizeInches": @(0),
          @"appName": [self getAppName],
          @"brand": @"Apple",
          @"model": [self getModel],
