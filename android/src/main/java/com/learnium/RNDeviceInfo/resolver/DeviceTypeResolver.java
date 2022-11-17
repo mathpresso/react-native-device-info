@@ -106,7 +106,6 @@ public class DeviceTypeResolver {
       return DeviceType.UNKNOWN;
     }
   }
-}
 
   private double getDiagonalSizeInches() {
     // Find the current window manager, if none is found we can't measure the device physical size.
@@ -143,3 +142,5 @@ public class DeviceTypeResolver {
     return diagonalSizeInches;
   }
 }
+
+  
