@@ -372,13 +372,9 @@ export const isTablet = () =>
     getter: () => RNDeviceInfo.isTablet,
   });
 
-export const diagonalSizeInches = () =>
-  getSupportedPlatformInfoSync({
-    defaultValue: 0,
-    supportedPlatforms: ['android', 'ios', 'windows'],
-    memoKey: undefined,
-    getter: () => RNDeviceInfo.diagonalSizeInches,
-  });
+export function diagonalSizeInches() {
+  return RNDeviceInfo.diagonalSizeInches;
+}
 
 export const [isPinOrFingerprintSet, isPinOrFingerprintSetSync] = getSupportedPlatformInfoFunctions(
   {

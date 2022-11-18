@@ -180,7 +180,6 @@ export interface DeviceInfoModule extends ExposedNativeMethods {
   isLandscape: () => Promise<boolean>;
   isLandscapeSync: () => boolean;
   isTablet: () => boolean;
-  diagonalSizeInches: () => number;
   supported32BitAbis: () => Promise<string[]>;
   supported32BitAbisSync: () => string[];
   supported64BitAbis: () => Promise<string[]>;
